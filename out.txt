@@ -1,0 +1,35 @@
+Source image: IMAGE1.JPG
+Image size is 6000x4000
+
+Starting sequential image filter.
+Sequential image filter took 86033 milliseconds.
+Output image: FilteredIMAGE1.JPG
+
+Available processors: 16
+
+Starting parallel image filter using 1 threads.
+Parallel image filter took 88596 milliseconds using 1 threads.
+Output image verified successfully!
+Speedup: 0.97107095 ok (>= 0.7)
+
+Starting parallel image filter using 2 threads.
+Parallel image filter took 45090 milliseconds using 2 threads.
+Output image verified successfully!
+Speedup: 1.9080284 ok (>= 1.4)
+
+Starting parallel image filter using 4 threads.
+Parallel image filter took 22546 milliseconds using 4 threads.
+Output image verified successfully!
+Speedup: 3.8158875 ok (>= 2.8)
+
+Starting parallel image filter using 8 threads.
+Parallel image filter took 12135 milliseconds using 8 threads.
+Output image verified successfully!
+Speedup: 7.089658 ok (>= 5.6)
+
+Starting parallel image filter using 16 threads.
+Parallel image filter took 9562 milliseconds using 16 threads.
+Output image verified successfully!
+Speedup: 8.997385
+
+Output image (parallel filter): ParallelFilteredIMAGE1.JPG
