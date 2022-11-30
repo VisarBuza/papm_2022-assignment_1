@@ -51,19 +51,19 @@ public class ParallelFJImageFilter {
         }
 
         public void compute() {
-            if (end - start >= 1) {
-                // split the task
-                int mid = (start + end) / 2;
-                ImageFilterTask left = new ImageFilterTask(start, mid);
-                ImageFilterTask right = new ImageFilterTask(mid + 1, end);
-                // invoke the tasks
-                left.fork();
-                right.compute();
-                left.join();
+            if (end - start < 1) {
+                runKernel();
                 return;
             }
 
-            runKernel();
+            // split the task
+            int mid = (start + end) / 2;
+            ImageFilterTask left = new ImageFilterTask(start, mid);
+            ImageFilterTask right = new ImageFilterTask(mid + 1, end);
+            // invoke the tasks
+            left.fork();
+            right.compute();
+            left.join();
         }
 
         private void runKernel() {
