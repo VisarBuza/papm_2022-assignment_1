@@ -91,16 +91,16 @@ public class TestImageFilter {
 			double expectedMinimumSpeedup = nthreads * 0.7;
 			double speedup = (double)tSequential / tParallel;
 			boolean isSpeedupEnough = speedup >= expectedMinimumSpeedup;
-			System.out.println("Speedup: " + speedup + isSpeedupEnough ? " ok (>= " : " not ok (< " expectedMinimumSpeedup + ")");
+			System.out.println("Speedup: " + speedup + " " + (isSpeedupEnough ? "ok (>= " : " not ok (< ") + expectedMinimumSpeedup + ")");
 		}
 		
-		BufferedImage dstImage = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-		dstImage.setRGB(0, 0, w, h, dst, 0, w);
+		BufferedImage parallelDstImage = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+		parallelDstImage.setRGB(0, 0, w, h, dst, 0, w);
 
-		String dstName = "ParallelFiltered" + srcFileName;
-		File dstFile = new File(dstName);
-		ImageIO.write(dstImage, "jpg", dstFile);
+		String parallelDstName = "ParallelFiltered" + srcFileName;
+		File parallelDstFile = new File(parallelDstName);
+		ImageIO.write(parallelDstImage, "jpg", parallelDstFile);
 
-		System.out.println("Output image: " + dstName);	
+		System.out.println("Output image: " + parallelDstName);	
 	}
 }
