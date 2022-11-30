@@ -44,11 +44,21 @@ public class TestImageFilter {
 		long tSequential = endTime - startTime; 
 		System.out.println("Sequential image filter took " + tSequential + " milliseconds.");
 
-		// Compare parallell image filter for 2, 4, 8, 16, 32 threads
-	
+		BufferedImage dstImage = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+		dstImage.setRGB(0, 0, w, h, dst, 0, w);
+
+		String dstName = "Filtered" + srcFileName;
+		File dstFile = new File(dstName);
+		ImageIO.write(dstImage, "jpg", dstFile);
+
+		System.out.println("Output image: " + dstName);	
+
 		var sequentialDst = dst.clone();
 
-		for (int nthreads = 2; nthreads <= 32; nthreads *= 2) {
+		System.out.println("Available processors: " + Runtime.getRuntime().availableProcessors());
+
+		// Compare parallell image filter for 2, 4, 8, 16, 32 threads
+		for (int nthreads = 1; nthreads <= 32; nthreads *= 2) {
 			System.out.println();
 			System.out.println("Starting parallell image filter using " + nthreads + " threads.");
 
@@ -62,22 +72,32 @@ public class TestImageFilter {
 
 			long tParallel = endTime - startTime; 
 			System.out.println("Parallel image filter took " + tParallel + " milliseconds using " + nthreads + " threads.");
-			System.out.println("Speedup: " + (double)tSequential / tParallel + " benchmark: " + nthreads * 0.7);
 
+			boolean isValid = true;
 			// compare that the results are the same with sequential
 			for (int i = 0; i < dst.length; i++) {
 				if (dst[i] != sequentialDst[i]) {
-					System.out.println("Error: dst[" + i + "] = " + dst[i] + " != " + sequentialDst[i] + " = sequentialDst[" + i + "]");
-					System.exit(1);
+					isValid = false;
+					break;
 				}
 			}
-			System.out.println("Output imaage verified successfully.");
+
+			if (isValid) {
+			  System.out.println("Output image verified successfully.");
+			} else {
+			  System.out.println("Output image is not valid!");
+			}
+
+			double expectedMinimumSpeedup = nthreads * 0.7;
+			double speedup = (double)tSequential / tParallel;
+			boolean isSpeedupEnough = speedup >= expectedMinimumSpeedup;
+			System.out.println("Speedup: " + speedup + isSpeedupEnough ? " ok (>= " : " not ok (< " expectedMinimumSpeedup + ")");
 		}
 		
 		BufferedImage dstImage = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
 		dstImage.setRGB(0, 0, w, h, dst, 0, w);
 
-		String dstName = "Filtered" + srcFileName;
+		String dstName = "ParallelFiltered" + srcFileName;
 		File dstFile = new File(dstName);
 		ImageIO.write(dstImage, "jpg", dstFile);
 
