@@ -91,7 +91,7 @@ public class TestImageFilter {
 			double expectedMinimumSpeedup = nthreads * 0.7;
 			double speedup = (double)tSequential / tParallel;
 			boolean isSpeedupEnough = speedup >= expectedMinimumSpeedup;
-			System.out.println("Speedup: " + speedup + " " + (isSpeedupEnough ? "ok (>= " : " not ok (< ") + expectedMinimumSpeedup + ")");
+			System.out.println("Speedup: " + speedup + " " + (isSpeedupEnough ? "ok (>= " : "not ok (< ") + expectedMinimumSpeedup + ")");
 		}
 		
 		BufferedImage parallelDstImage = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
